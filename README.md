@@ -1,39 +1,56 @@
-# wordpress
-https://github.com/docker/awesome-compose/tree/master/wordpress-mysql
-WordPress with MySQL
-This example defines one of the basic setups for WordPress. More details on how this works can be found on the official WordPress image page.
+# WordPress with MySQL using Docker Compose
 
-Project structure:
+This repository provides a basic setup for running WordPress with MySQL using Docker Compose. It is designed to be compatible with both AMD64 and ARM64 architectures.
 
+## Project Structure
+
+```
 .
-├── compose.yaml
-└── README.md
-compose.yaml
+├── docker-compose.yml
+├── README.md
+└── .gitignore
+```
 
-services:
-  db:
-    # We use a mariadb image which supports both amd64 & arm64 architecture
-    image: mariadb:10.6.4-focal
-    # If you really want to use MySQL, uncomment the following line
-    #image: mysql:8.0.27
-    ...
-  wordpress:
-    image: wordpress:latest
-    ports:
-      - 80:80
-    restart: always
-    ...
-When deploying this setup, docker compose maps the WordPress container port 80 to port 80 of the host as specified in the compose file.
+## Services
 
-ℹ️ INFO
-For compatibility purpose between AMD64 and ARM64 architecture, we use a MariaDB as database instead of MySQL.
-You still can use the MySQL image by uncommenting the following line in the Compose file
-#image: mysql:8.0.27
+The setup includes the following services:
 
-Deploy with docker compose
-$ docker compose up -d
-Creating network "wordpress-mysql_default" with the default driver
-Creating volume "wordpress-mysql_db_data" with default driver
-...
-Creating wordpress-mysql_db_1        ... done
-Creating wordpress-mysql_wordpress_1 ... done
+- **Database (MariaDB or MySQL)**:
+  - By default, this setup uses a MariaDB image (`mariadb:10.6.4-focal`) to ensure compatibility across different architectures.
+  - If you prefer to use MySQL, uncomment the following line in `docker-compose.yml`:
+    ```yaml
+    image: mysql:8.0.27
+    ```
+- **WordPress**:
+  - Uses the latest WordPress image (`wordpress:latest`).
+  - Exposes port `80` to map to port `80` of the host machine.
+  - Automatically restarts using `restart: always`.
+
+## Deployment
+
+To deploy the WordPress application, run the following command:
+
+```sh
+docker compose up -d
+```
+
+This will:
+- Create a Docker network named `wordpress-mysql_default`.
+- Create a volume `wordpress-mysql_db_data` for database persistence.
+- Start the WordPress and database containers.
+
+## Compatibility Notes
+
+🔹 For cross-platform compatibility:
+- **MariaDB is used by default** to support both AMD64 and ARM64.
+- You can switch to MySQL by uncommenting the `mysql` image line in `docker-compose.yml`.
+
+## References
+
+For more details, visit the official WordPress Docker page:
+[WordPress Docker Official Documentation](https://hub.docker.com/_/wordpress)
+
+## License
+
+This project is licensed under the MIT License.
+
